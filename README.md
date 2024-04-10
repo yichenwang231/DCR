@@ -1,7 +1,5 @@
 # Prototypical Classifier with Distribution Consistency Regularization for Generalized Category Discovery: A Strong Baseline
 
-![workflow](assets/dcr.png)
-
 Generalized Category Discovery (GCD) generalizes semi-supervised learning to a more realistic and challenging  setting where unlabeled data contains samples from both known and novel categories. Recently, prototypical classifier has shown prominent performance on this issue, with the Softmax-based Cross-Entropy loss (SCE) commonly employed to optimize the distance between a sample and prototypes. However, the inherent non-bijectiveness of SCE prevents it from resolving intraclass relations among samples, resulting in semantic ambiguity. To mitigate this issue, we propose Distribution Consistency Regularization (DCR) for prototypical classifier. By leveraging a simple intraclass consistency loss, we enforce the classifier to yield similar outputs for samples belonging to the same class. In doing so, we equip classifier to better capture local structures and alleviate semantic ambiguity. Additionally, we propose using partial labels, rather than hard pseudo labels, to explore potential positive pairs in unlabeled data, thereby reducing the risk of introducing noisy supervisory signals. DCR requires no external sophisticated module, rendering the enhanced model concise and efficient. Extensive experiments validate consistent performance benefits of DCR while  achieving competitive or better performance on six benchmarks. Hence, our method can serve as a strong baseline for GCD.
 
 ## Running
