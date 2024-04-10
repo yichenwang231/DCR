@@ -39,10 +39,6 @@ We use oarse-grained benchmarks in this paper, including:
 bash scripts/run_${DATASET_NAME}.sh
 ```
 
-## Experimental Results
-Our results on  whole six datasets:
-![dataset](assets/comparison.png)
-
 ## Acknowledgements
 
 The code repo is largely built on this repo: https://github.com/sgvaze/generalized-category-discovery.
