@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import math
-from typing import Iterable
+import sys
 
 import streamlit as st
+from streamlit.runtime.scriptrunner import get_script_run_ctx
 
 from database import (
     add_favorite,
@@ -20,7 +21,8 @@ from database import (
 )
 from recommender import recommend_by_user_cf
 
-st.set_page_config(page_title="智能书籍推荐系统", page_icon="📚", layout="wide")
+def is_streamlit_context() -> bool:
+    return get_script_run_ctx() is not None
 
 
 @st.cache_resource
@@ -183,6 +185,12 @@ def render_favorites(username: str) -> None:
 
 
 def main() -> None:
+    if not is_streamlit_context():
+        print("请使用 Streamlit 启动应用，而不是直接 python 运行。")
+        print("正确命令：streamlit run book_recommender/app.py")
+        sys.exit(0)
+
+    st.set_page_config(page_title="智能书籍推荐系统", page_icon="📚", layout="wide")
     bootstrap()
 
     if "username" not in st.session_state:

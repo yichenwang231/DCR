@@ -14,3 +14,7 @@ streamlit run book_recommender/app.py
 ```
 
 默认会自动初始化 SQLite 数据库：`book_recommender/books.db`。
+
+## 运行提示
+- 请不要使用 `python book_recommender/app.py` 直接运行。
+- 正确方式是使用：`streamlit run book_recommender/app.py`，否则会出现 `missing ScriptRunContext` 与 `Session state does not function` 提示。
