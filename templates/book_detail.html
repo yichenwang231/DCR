@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-4">
+    <img src="{{ book.cover_url or 'https://picsum.photos/500/700' }}" class="img-fluid rounded shadow" alt="cover">
+  </div>
+  <div class="col-md-8">
+    <h2>{{ book.title }}</h2>
+    <p class="text-secondary">作者：{{ book.author }} ｜ 类型：{{ book.genre }}</p>
+    <p>{{ book.description }}</p>
+    <p>综合评分：⭐ {{ '%.2f'|format(book.avg_rating) }}（{{ book.rating_count }}人）</p>
+
+    {% if session.get('user_id') %}
+    <form method="post" action="{{ url_for('rate_book', book_id=book.id) }}" class="card p-3 mb-3">
+      <h5>我的评分</h5>
+      <div class="row g-2">
+        <div class="col-md-3"><input class="form-control" type="number" min="1" max="5" name="rating" value="{{ user_rating.rating if user_rating else '' }}" required></div>
+        <div class="col-md-9"><input class="form-control" name="comment" placeholder="可选评论" value="{{ user_rating.comment if user_rating else '' }}"></div>
+      </div>
+      <button class="btn btn-primary mt-2">提交评分</button>
+    </form>
+    {% else %}
+    <p><a href="{{ url_for('login') }}">登录后可评分</a></p>
+    {% endif %}
+
+    <h5>用户评论</h5>
+    {% for c in comments %}
+      <div class="comment-item">
+        <strong>{{ c.username }}</strong> - ⭐ {{ c.rating }}
+        <div>{{ c.comment or '暂无评论内容。' }}</div>
+      </div>
+    {% else %}
+      <p class="text-secondary">暂无评分记录。</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

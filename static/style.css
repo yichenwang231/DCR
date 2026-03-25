@@ -1,0 +1,37 @@
+body {
+  background: radial-gradient(circle at top left, #1f2a44 0%, #0e1320 45%, #090d16 100%);
+  color: #f6f7fb;
+  min-height: 100vh;
+}
+.hero-card, .card, .auth-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.glass-nav {
+  background: rgba(15, 19, 35, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+.book-card .cover {
+  height: 260px;
+  object-fit: cover;
+}
+.auth-card {
+  max-width: 460px;
+}
+.comment-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+}
+.form-control, .form-select {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.form-control::placeholder { color: #cfd6f5; }
+.table { --bs-table-bg: transparent; }
