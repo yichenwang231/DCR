@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}管理书籍{% endblock %}
+{% block content %}
+<h1>{% if book %}编辑书籍{% else %}新增书籍{% endif %}</h1>
+<form method="post" class="review-form">
+  <label>标题<input name="title" value="{{ book.title if book else '' }}" required></label>
+  <label>作者<input name="author" value="{{ book.author if book else '' }}" required></label>
+  <label>分类<input name="category" value="{{ book.category if book else '' }}" required></label>
+  <label>封面URL<input name="cover_url" value="{{ book.cover_url if book else '' }}"></label>
+  <label>简介<textarea name="description" rows="5">{{ book.description if book else '' }}</textarea></label>
+  <button type="submit">保存</button>
+</form>
+{% endblock %}

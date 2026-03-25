@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}书籍推荐系统{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="navbar">
+    <a class="logo" href="{{ url_for('index') }}">📚 书籍推荐系统</a>
+    <nav>
+      {% if session.get('role') == 'user' %}
+        <a href="{{ url_for('favorites_page') }}">我的收藏</a>
+      {% endif %}
+      {% if session.get('role') == 'admin' %}
+        <a href="{{ url_for('admin_dashboard') }}">管理员后台</a>
+      {% endif %}
+      {% if session.get('user_id') %}
+        <span class="user">你好，{{ session.get('username') }}</span>
+        <a href="{{ url_for('logout') }}">退出</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">登录</a>
+        <a href="{{ url_for('register') }}">注册</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
