@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}我的收藏{% endblock %}
+{% block content %}
+<h1>我的收藏</h1>
+<div class="grid">
+  {% for b in books %}
+    <article class="card mini">
+      <img src="{{ b.cover_url }}" alt="{{ b.title }}">
+      <h3>{{ b.title }}</h3>
+      <p>{{ b.author }}</p>
+      <a href="{{ url_for('book_detail', book_id=b.id) }}">详情</a>
+    </article>
+  {% else %}
+    <p>你还没有收藏任何书籍。</p>
+  {% endfor %}
+</div>
+{% endblock %}

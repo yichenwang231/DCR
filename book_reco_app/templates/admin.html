@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}管理员后台{% endblock %}
+{% block content %}
+<h1>管理员后台</h1>
+<div class="stats">
+  <div>用户数：{{ stats.users }}</div>
+  <div>书籍数：{{ stats.books }}</div>
+  <div>评价数：{{ stats.ratings }}</div>
+  <div>收藏数：{{ stats.favorites }}</div>
+</div>
+<p><a class="button" href="{{ url_for('admin_new_book') }}">新增书籍</a></p>
+<table>
+  <tr><th>ID</th><th>标题</th><th>作者</th><th>分类</th><th>操作</th></tr>
+  {% for b in books %}
+  <tr>
+    <td>{{ b.id }}</td><td>{{ b.title }}</td><td>{{ b.author }}</td><td>{{ b.category }}</td>
+    <td>
+      <a href="{{ url_for('admin_edit_book', book_id=b.id) }}">编辑</a>
+      <a href="{{ url_for('admin_delete_book', book_id=b.id) }}" onclick="return confirm('确认删除?')">删除</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

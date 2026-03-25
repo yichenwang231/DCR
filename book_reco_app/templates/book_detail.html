@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}书籍详情{% endblock %}
+{% block content %}
+<article class="detail">
+  <img src="{{ book.cover_url }}" alt="{{ book.title }}">
+  <div>
+    <span class="tag">{{ book.category }}</span>
+    <h1>{{ book.title }}</h1>
+    <p class="muted">作者：{{ book.author }}</p>
+    <p>{{ book.description }}</p>
+    <p><strong>平均评分：</strong>{{ avg_score or '暂无评分' }}</p>
+    {% if session.get('role') == 'user' %}
+      <a class="button" href="{{ url_for('toggle_favorite', book_id=book.id) }}">{% if is_favorited %}取消收藏{% else %}加入收藏{% endif %}</a>
+    {% endif %}
+  </div>
+</article>
+
+<section>
+  <h2>用户评价</h2>
+  {% if session.get('role') == 'user' %}
+  <form method="post" class="review-form">
+    <label>评分
+      <select name="score">
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option>
+        <option value="2">2</option><option value="1">1</option>
+      </select>
+    </label>
+    <label>评论
+      <textarea name="comment" rows="4" placeholder="写下你的阅读感受"></textarea>
+    </label>
+    <button type="submit">提交评价</button>
+  </form>
+  {% endif %}
+
+  <div class="reviews">
+    {% for r in ratings %}
+      <div class="review">
+        <strong>{{ r.username }}</strong>
+        <span>评分：{{ r.score }}/5</span>
+        <p>{{ r.comment }}</p>
+      </div>
+    {% else %}
+      <p>暂无评价</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

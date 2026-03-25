@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}首页推荐{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>发现下一本好书</h1>
+  <p>支持分类筛选、关键词搜索、协同过滤个性化推荐。</p>
+</section>
+
+<form class="search" method="get">
+  <input type="text" name="q" placeholder="搜索书名/作者" value="{{ keyword }}">
+  <select name="category">
+    <option value="">全部分类</option>
+    {% for c in categories %}
+      <option value="{{ c.category }}" {% if category == c.category %}selected{% endif %}>{{ c.category }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">筛选</button>
+</form>
+
+{% if recommendations %}
+<section>
+  <h2>为你推荐（协同过滤）</h2>
+  <div class="grid">
+    {% for b in recommendations %}
+      <article class="card mini">
+        <img src="{{ b.cover_url }}" alt="{{ b.title }}">
+        <h3>{{ b.title }}</h3>
+        <p>{{ b.author }}</p>
+        <a href="{{ url_for('book_detail', book_id=b.id) }}">查看详情</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section>
+  <h2>图书列表</h2>
+  <div class="grid">
+    {% for book in books %}
+      <article class="card">
+        <img src="{{ book.cover_url }}" alt="{{ book.title }}">
+        <div>
+          <span class="tag">{{ book.category }}</span>
+          <h3>{{ book.title }}</h3>
+          <p class="muted">作者：{{ book.author }}</p>
+          <p>{{ book.description }}</p>
+          <div class="actions">
+            <a href="{{ url_for('book_detail', book_id=book.id) }}">详情</a>
+            {% if session.get('role') == 'user' %}
+              <a href="{{ url_for('toggle_favorite', book_id=book.id) }}">收藏/取消</a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="pagination">
+  {% if current_page > 1 %}
+    <a href="{{ url_for('index', page=current_page-1, q=keyword, category=category) }}">上一页</a>
+  {% endif %}
+  <span>第 {{ current_page }} / {{ total_pages }} 页</span>
+  {% if current_page < total_pages %}
+    <a href="{{ url_for('index', page=current_page+1, q=keyword, category=category) }}">下一页</a>
+  {% endif %}
+</div>
+{% endblock %}
