@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3 class="mb-3">管理员后台</h3>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card p-3 h-100">
+      <h5>图书管理（增/改）</h5>
+      <form method="post" action="{{ url_for('admin_save_book') }}" class="vstack gap-2">
+        <input class="form-control" name="book_id" placeholder="图书ID（编辑时填写）">
+        <input class="form-control" name="title" placeholder="书名" required>
+        <input class="form-control" name="author" placeholder="作者" required>
+        <input class="form-control" name="genre" placeholder="类型" required>
+        <textarea class="form-control" name="description" placeholder="简介"></textarea>
+        <input class="form-control" name="cover_url" placeholder="封面URL">
+        <button class="btn btn-primary">保存图书</button>
+      </form>
+      <hr>
+      <form method="post" action="{{ url_for('admin_import_books') }}" class="d-flex gap-2">
+        <input class="form-control" name="keyword" placeholder="联网抓取关键词，如 科幻">
+        <button class="btn btn-outline-primary">从OpenLibrary导入</button>
+      </form>
+      <div class="table-responsive mt-3">
+        <table class="table table-sm table-dark table-hover">
+          <thead><tr><th>ID</th><th>书名</th><th>评分</th><th>操作</th></tr></thead>
+          <tbody>
+          {% for b in books %}
+          <tr>
+            <td>{{ b.id }}</td><td>{{ b.title }}</td><td>{{ '%.2f'|format(b.avg_rating) }}</td>
+            <td><a class="btn btn-danger btn-sm" href="{{ url_for('admin_delete_book', book_id=b.id) }}">删除</a></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card p-3 mb-4">
+      <h5>用户管理（增/改）</h5>
+      <form method="post" action="{{ url_for('admin_save_user') }}" class="vstack gap-2">
+        <input class="form-control" name="user_id" placeholder="用户ID（编辑时填写）">
+        <input class="form-control" name="username" placeholder="用户名" required>
+        <select class="form-select" name="role">
+          <option value="user">user</option>
+          <option value="admin">admin</option>
+        </select>
+        <input class="form-control" name="password" placeholder="密码（编辑可留空）">
+        <button class="btn btn-primary">保存用户</button>
+      </form>
+      <div class="table-responsive mt-3">
+        <table class="table table-sm table-dark table-hover">
+          <thead><tr><th>ID</th><th>用户名</th><th>角色</th><th>操作</th></tr></thead>
+          <tbody>
+          {% for u in users %}
+          <tr>
+            <td>{{ u.id }}</td><td>{{ u.username }}</td><td>{{ u.role }}</td>
+            <td><a class="btn btn-danger btn-sm" href="{{ url_for('admin_delete_user', user_id=u.id) }}">删除</a></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card p-3">
+      <h5>评分管理</h5>
+      <div class="table-responsive">
+        <table class="table table-sm table-dark table-hover">
+          <thead><tr><th>ID</th><th>用户</th><th>图书</th><th>评分</th><th>操作</th></tr></thead>
+          <tbody>
+          {% for r in ratings %}
+          <tr>
+            <td>{{ r.id }}</td><td>{{ r.username }}</td><td>{{ r.title }}</td><td>{{ r.rating }}</td>
+            <td><a class="btn btn-danger btn-sm" href="{{ url_for('admin_delete_rating', rating_id=r.id) }}">删除</a></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-card mx-auto p-4">
+  <h3 class="mb-3">注册</h3>
+  <form method="post" class="vstack gap-3">
+    <input class="form-control" name="username" placeholder="用户名" required>
+    <input class="form-control" name="password" type="password" placeholder="密码" required>
+    <button class="btn btn-primary">创建账户</button>
+  </form>
+</div>
+{% endblock %}

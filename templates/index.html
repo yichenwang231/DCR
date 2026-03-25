@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero-card p-4 mb-4">
+  <h1 class="display-6 fw-bold">协同过滤驱动的个性化小说推荐</h1>
+  <p class="text-secondary">支持注册登录、检索浏览、评分反馈、智能推荐与管理员全量数据管理。</p>
+</section>
+
+<form class="row g-2 mb-4" method="get">
+  <div class="col-md-3"><input class="form-control" name="q" placeholder="书名关键词" value="{{ request.args.get('q', '') }}"></div>
+  <div class="col-md-2"><input class="form-control" name="author" placeholder="作者" value="{{ request.args.get('author', '') }}"></div>
+  <div class="col-md-2"><input class="form-control" name="genre" placeholder="类型" value="{{ request.args.get('genre', '') }}"></div>
+  <div class="col-md-2"><input class="form-control" name="min_rating" placeholder="最低评分(1-5)" value="{{ request.args.get('min_rating', '') }}"></div>
+  <div class="col-md-3 d-grid"><button class="btn btn-primary">搜索图书</button></div>
+</form>
+
+{% if session.get('user_id') and recs %}
+<h4 class="mb-3">为你推荐</h4>
+<div class="row g-3 mb-4">
+  {% for b in recs %}
+  <div class="col-md-3">
+    <div class="card book-card h-100">
+      <img src="{{ b.cover_url or 'https://picsum.photos/300/420?grayscale' }}" class="card-img-top cover" alt="cover">
+      <div class="card-body">
+        <h6>{{ b.title }}</h6>
+        <small class="text-secondary">{{ b.author }}｜{{ b.genre }}</small>
+      </div>
+      <div class="card-footer bg-transparent border-0">
+        <a class="btn btn-outline-primary btn-sm w-100" href="{{ url_for('book_detail', book_id=b.id) }}">查看详情</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<h4 class="mb-3">图书列表</h4>
+<div class="row g-3">
+  {% for b in books %}
+  <div class="col-md-3">
+    <div class="card book-card h-100">
+      <img src="{{ b.cover_url or 'https://picsum.photos/300/420' }}" class="card-img-top cover" alt="cover">
+      <div class="card-body">
+        <h6>{{ b.title }}</h6>
+        <small class="text-secondary d-block">{{ b.author }}</small>
+        <span class="badge bg-info-subtle text-info-emphasis">{{ b.genre }}</span>
+        <div class="mt-2">⭐ {{ '%.2f'|format(b.avg_rating) }} ({{ b.rating_count }})</div>
+      </div>
+      <div class="card-footer bg-transparent border-0">
+        <a href="{{ url_for('book_detail', book_id=b.id) }}" class="btn btn-outline-primary btn-sm w-100">详情 / 评分</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
